@@ -1,0 +1,210 @@
+#:kivy 1.11.1
+<FlatButton@ButtonBehavior+Label>:
+    font_size: 16
+
+##################### LOG IN ########################
+<meeLogin>:
+    id: lg_main_window
+    orientation: "vertical"
+    spacing: 10
+    space_x: self.size[0]/3
+    canvas.before:
+        Color:
+            rgba: (0,0,0.1, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        canvas.before:
+            Color:
+                rgba: (0.003,0.14,0.34, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: "meeChat"
+            bold: True
+    
+    BoxLayout:
+        orientation: "vertical"
+        padding: lg_main_window.space_x, 50
+        #spacing: 20
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            size_hint_y: None
+            height: 100
+
+            Label:
+                id: log_in_info
+                text: ''
+                markup: True
+                size_hint_y: None
+                height: 20
+            TextInput: 
+                id: username_field
+                hint_text: "Username"
+                multiline: False
+                focus: True
+                on_text_validate: password_field.focus = True
+            TextInput:
+                id: password_field
+                hint_text: "Password"
+                multiline: False
+                password: True
+                on_text_validate: root.validate_user()
+        Label:
+            id: sp
+            size_hint_y: None
+            height: 40
+        Button:
+            text: "Login"
+            size_hint_y: None
+            height: 40
+            background_color: (0.003,0.14,0.34, 1)
+            background_normal: ''
+            on_release: root.validate_user()
+        Label:
+            id: sp2
+
+##################### MESSAGES ########################
+<meeMessages>:
+    id: mm_main_window
+    orientation: "vertical"
+    spacing: 10
+    space_x: self.size[0]/3
+    space_y: self.size[1]/2
+    canvas.before:
+        Color:
+            rgba: (0,0,0.1, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        canvas.before:
+            Color:
+                rgba: (0.003,0.14,0.34, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: "meeChat"
+            bold: True
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: mm_main_window.space_x/4, 0
+        #size_hint_y: None
+        #height: 50
+        BoxLayout:
+            orientation: "vertical"
+            padding: 0, 0, 0, 70
+            BoxLayout:
+                orientation: "horizontal"
+                spacing: 10
+                size_hint_y: None
+                height: 100
+
+                TextInput: 
+                    id: BROKER_IP
+                    hint_text: "BROKER IP"
+                    multiline: False
+                    focus: False
+                    size_hint_x: 0.3
+                    size_hint_y: 0.3
+                TextInput: 
+                    id: CLIENT_ID
+                    hint_text: "CLIENT ID"
+                    multiline: False
+                    focus: False
+                    size_hint_x: 0.3
+                    size_hint_y: 0.3
+                TextInput: 
+                    id: TOPIC
+                    hint_text: "TOPIC"
+                    multiline: False
+                    focus: False
+                    size_hint_x: 0.3
+                    size_hint_y: 0.3      
+        BoxLayout:
+            orientation: "vertical"
+            size_hint_y: None
+            padding: 0, 0, 0, 115
+            height: 20
+        BoxLayout:
+            orientation: "horizontal"
+            spacing: 15
+            size_hint_y: None
+            padding: 0, 0, 0, 70
+            height: 20
+            Button:
+                text: "Connect"
+                size_hint_y: None
+                #size_hint_x: None
+                height: 30
+                background_color: (0.003,0.14,0.54, 1)
+                background_normal: ''
+                on_release: root.ON_CONNECT()
+            Button:
+                text: "Disconnect"
+                size_hint_y: None
+                #size_hint_x: None
+                height: 30
+                background_color: (0.003,0.14,0.55, 1)
+                background_normal: ''
+                on_release: root.ON_DISCONNECT()
+        Label:
+            id: BROKER_CONNECTED_INFO
+            text: 'Not Connected'
+            markup: True
+            size_hint_y: None
+            height: 20
+
+    ScrollView:
+        do_scroll_x: False
+        do_scroll_y: True
+        canvas.before:
+            Color:
+                rgba: (0,0,0, 1)
+            Rectangle:
+                size: 960, 200
+                pos: (20, 170)
+        Label:
+            id: SHOW_MESSAGES
+            padding: 30, 5
+            size_hint: None, None
+            markup: True    
+            size: self.texture_size  
+            text: ""
+
+    #MESSAGING SYSTEM        
+    BoxLayout:
+        orientation: "vertical"
+        padding: 50, 10, 50, 10
+        size_hint_y: None
+        height: 100    
+        TextInput:
+            id: MESSAGE_INTPUT
+            hint_text: "Write message here..."
+            multiline: True
+            focus: True
+            size_hint_x: 1
+            size_hint_y: 1
+            on_text_validate: root.ON_SEND()   
+    BoxLayout:
+        orientation: "horizontal"
+        padding: 50, 10, 50, 10
+        size_hint_y: None
+        height: 50    
+        spacing: 20
+        Button:
+            text: "SEND"
+            size_hint_y: None
+            height: 40
+            background_color: (0.003,0.14,0.55, 1)
+            background_normal: ''
+            on_release: root.ON_SEND()
